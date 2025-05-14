@@ -1,23 +1,19 @@
-name: AI Code Reviewer
+# .github/workflows/ai-review.yml
+name: AI Code Review
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
-
-permissions: write-all
+    types: [opened, synchronize]
 
 jobs:
-  review:
+  ai-review:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: AI Code Review
-        uses: intuit/auto-code-review@main
+      - name: Run AI Code Review
+        uses: Rimi04source/ai-reviewer@main
         with:
-          openai-key: ${{ secrets.OPENAI_API_KEY }}
-          language: python
-          files-changed: "sample.py"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
