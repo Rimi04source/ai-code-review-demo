@@ -5,14 +5,26 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  review:
+  ai-review:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout your project repo
         uses: actions/checkout@v3
 
-      - name: Run AI Code Review
-        uses: theashraf/alex-reads@v1
+      - name: Checkout ai-reviewer repo
+        uses: actions/checkout@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          repository: Rimi04source/ai-reviewer
+          path: reviewer-code
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run AI Reviewer
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python reviewer-code/.ai/io/nerdythings/github_reviewer.py
