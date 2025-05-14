@@ -8,23 +8,23 @@ jobs:
   ai-review:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main repo (your project)
+      - name: Checkout your project repo
         uses: actions/checkout@v3
 
-      - name: Checkout AI Reviewer code
+      - name: Checkout ai-reviewer repo
         uses: actions/checkout@v3
         with:
           repository: Rimi04source/ai-reviewer
-          path: ai-reviewer
+          path: reviewer-code
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Run AI Review script
+      - name: Run AI Reviewer
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python ai-reviewer/ai/github_reviewer.py
+          python reviewer-code/.ai/io/nerdythings/github_reviewer.py
